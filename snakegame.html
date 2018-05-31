@@ -1,0 +1,109 @@
+<canvas id = "canvas" width="400" height="400"></canvas>
+
+<script>
+	window.onload = function(){
+	
+//creating  a canvas
+	document.getElementById("canvas");
+	ctx = canvas.getContext('2d');
+
+
+//set variables
+
+snake =[];
+positionX = 10;
+positionY = 10;
+velX = 0;
+velY = 0;
+grid = 20;
+tam = 5;
+foodX = 15;
+foodY = 15;
+
+
+//events-snake (up,down,left,right)
+	document.addEventListener("keydown",function(e){
+
+		switch(e.keyCode) {
+			case 37:
+				velX = -1;
+				velY = 0;
+				break;
+			case 38:
+				velX = 0;
+				velY = -1;
+				break;
+			case 39:
+				velX = 1;
+				velY = 0;
+				break;
+			case 40:
+				velX = 0;
+				velY = 1;
+				break;
+	
+	
+
+		}
+	});
+ //speed-snake
+	setInterval(game,1000/15);	
+}
+
+
+function game(){
+	positionX += velX;
+	positionY += velY;
+	//limiting the grid
+	if(positionX < 0 ){
+		positionX = grid;
+	}
+	if(positionX > grid){
+		positionX = 0;
+	}
+	if(positionY < 0 ){
+		positionY = grid;
+	}
+	if(positionY > grid){
+		positionY = 0;
+	}
+	
+
+
+	ctx.fillStyle = "blue";
+	ctx.fillRect(0,0,canvas.width,canvas.height);
+	snake.push({x:positionX,y:positionY});
+
+	ctx.fillStyle = "white";
+	for(var i = 0; i < snake.length;i++){
+		ctx.fillRect(snake[i].x*grid,snake[i].y*grid,grid-1,grid-1)
+	}
+
+	while(snake.length > tam){
+		snake.shift();
+	}
+	ctx.fillStyle = "yellow";
+	ctx.fillRect(foodX*grid,foodY*grid,grid-1,grid-1);
+
+	//snake-eating food
+	if(positionX == foodX && positionY == foodY){
+		tam++;
+		foodX = Math.floor(Math.random() * grid);
+		foodY = Math.floor(Math.random()*grid);
+		}
+	}
+
+//to improve
+	//->Function gameOver(){
+	//when the snake to touch yourself, the game ends.
+
+	//->if the snake is in one direction on the X axis, 
+	//it can not go to the other end on the X axis 
+	//unless it goes to the Y axis
+
+
+	
+
+
+
+</script>
